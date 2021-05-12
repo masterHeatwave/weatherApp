@@ -1,151 +1,117 @@
 <template>
-  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
-    <main>
-      <div class='menu'>
-        <router-view></router-view>
-      </div>
-      <div class="search-box">
-        <input 
-          type="text" 
-          class="search-bar" 
-          placeholder="Type a city..."
-          v-model="query"
-          @keypress="fetchWeather"
-        />
-      </div>
-
-      <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
-        <div class="location-box">
-          <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
-          <div class="date">{{ dateBuilder() }}</div>
-        </div>
-
-        <div class="weather-box">
-          <div class="temp">{{ Math.round(weather.main.temp) }}°c</div>
-          <div class="weather">{{ weather.weather[0].main }}</div>
-        </div>
-      </div>
-    </main>
-  </div>
+<div class="header">
+	<h1> 5-Day Forecast App </h1>
+	<div class="wrapper">
+		<body class="intro">
+			<ApiCall @forecast="forecastData = $event" @forecastError="forecastDataError = $event" />
+		</body>
+    <div class="column is-one-quarters custom-title">
+             <button class="button fav-button is-pulled-right" name="button">
+               <span> Add to favorites
+                 <i class="fa fa-heart-o" aria-hidden="true"></i>
+               </span>
+             </button>
+          </div>
+		<div v-if="forecastDataError">
+			<ErrorHandling header="Error" content="This city name doesn't exist. Please try again!"/>
+		</div>
+		<div v-else-if="forecastData">
+			<h2 class="forecast-header">5-Day Forecast for {{ forecastData.city.name }}, {{ forecastData.city.country }}</h2>
+			<div class="card-wrap">
+				<WeatherData
+					v-for="(dailyForecast, index) in filteredForecastData"
+					v-bind="dailyForecast"
+					:key="index"
+				/>
+				
+			</div>
+		</div>
+		<div v-else>
+			<ErrorHandling />
+		</div>
+		</div>
+	</div>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      api_key: 'b46668659c40d3e42d35ce2471f676e8',
-      url_base: 'https://api.openweathermap.org/data/2.5/',
-      query: '',
-      weather: {}
-    }
-  },
-  methods: {
-    fetchWeather (e) {
-      if (e.key == "Enter") {
-        fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
-      }
-    },
-    setResults (results) {
-      this.weather = results;
-    },
-    dateBuilder () {
-      let d = new Date();
-      let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      let day = days[d.getDay()];
-      let date = d.getDate();
-      let month = months[d.getMonth()];
-      let year = d.getFullYear();
-      return `${day} ${date} ${month} ${year}`;
-    }
-  }
-}
+	import ApiCall from './components/ApiCall.vue';
+	import ErrorHandling from './components/ErrorHandling.vue';
+	import WeatherData from './components/WeatherData.vue';
+
+	export default {
+		components: {
+			ApiCall,
+			ErrorHandling,
+			WeatherData
+		},
+
+		computed: {
+			// API returns data 40 times within 5 days, we only need one time per day, so we divide 40 by 5 (== 8 times)
+			filteredForecastData() {
+				return this.forecastData.list.filter((v, i) => i % 8 === 0);
+			}
+		},
+
+		data() {
+			return {
+				forecastData: null,
+				forecastDataError: null
+			}
+		}
+	};
 </script>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'montserrat', sans-serif;
-}
-#app {
-  background-image: url('./assets/bg.jpg');
-  background-size: cover;
-  background-position: bottom;
-  transition: 0.4s;
-}
+<style lang="scss">
+	@import "assets/scss/main.scss";
 
-main {
-  min-height: 100vh;
-  padding: 25px;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.75));
-}
-.search-box {
-  width: 100%;
-  margin-bottom: 30px;
-}
-.search-box .search-bar {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  
-  color: #313131;
-  font-size: 20px;
-  appearance: none;
-  border:none;
-  outline: none;
-  background: none;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 0px 16px 0px 16px;
-  transition: 0.4s;
-}
-.search-box .search-bar:focus {
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.75);
-  border-radius: 16px 0px 16px 0px;
-}
-.location-box .location {
-  color: #FFF;
-  font-size: 32px;
-  font-weight: 500;
-  text-align: center;
-  text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
-}
-.location-box .date {
-  color: #FFF;
-  font-size: 20px;
-  font-weight: 300;
-  font-style: italic;
-  text-align: center;
-}
-.weather-box {
-  text-align: center;
-}
-.weather-box .temp {
-  display: inline-block;
-  padding: 10px 25px;
-  color: #FFF;
-  font-size: 102px;
-  font-weight: 900;
-  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-  background-color:rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  margin: 30px 0px;
-  box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-}
-.weather-box .weather {
-  color: #FFF;
-  font-size: 48px;
-  font-weight: 700;
-  font-style: italic;
-  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-}
+
+	h1{
+		text-align: center;
+		color: rgb(20, 20, 20);
+		font-family: 'Courier New', Courier, monospace;
+		font-size:  45px;
+		padding: 20px;
+		text-shadow: 3px 3px 6px rgb(206, 198, 198);
+		box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+  		background: transparentize(white, 0.9);
+	}
+
+	h2 {
+		color: rgb(180, 38, 38);
+	}
+
+	h2.forecast-header {
+		border-top: 4px dotted #F9CFD7;
+		color:  rgb(180, 38, 38);;
+		padding-top: 1em;
+		padding-bottom: 1em;
+	}
+
+	.intro {
+		margin-bottom: 48px;
+		
+		h1 {
+			background:  rgb(180, 38, 38);
+			border-radius: 8px;
+			outline-color: crimson;
+			color: white;
+			display: inline-block;
+			font-size: 48px;
+			margin-bottom: 0;
+			margin-left: -8px;
+			padding: 8px;
+		}
+	}
+
+	// TODO: move these to scoped component files
+	.wrapper {
+		margin: 48px auto;
+		max-width: 1400px;
+		padding: 0 48px;
+	}
+
+	.card-wrap {
+		display: flex;
+		justify-content: space-between;
+	}
 </style>
