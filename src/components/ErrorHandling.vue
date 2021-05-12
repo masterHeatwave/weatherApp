@@ -1,12 +1,19 @@
 <template>
+<<<<<<< HEAD
     <div class="notification notification-warning">
+=======
+    <div class="error">
+>>>>>>> improve-styling
         <h2 v-if="header">{{ header }}</h2>
         <p>{{ content }}</p>
     </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 
+=======
+>>>>>>> improve-styling
 export default {
     props: {
         header: {
@@ -22,6 +29,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+<<<<<<< HEAD
 
     .notification-container {
         position: fixed;
@@ -70,6 +78,16 @@ export default {
 
 
     h2 {
+=======
+    .error {
+        background: transparentize( #000001, 1);
+        border-radius: 8px;
+        color:rgb(223, 22, 22);
+        box-shadow: 2px 2px 8px transparentize(black, 0.9);
+        padding: 42px;
+
+        h2 {
+>>>>>>> improve-styling
             margin-top: 0;
         }
     }

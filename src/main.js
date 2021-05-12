@@ -1,7 +1,10 @@
 import Vue from "vue";
 import App from "./App.vue";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> improve-styling
 Vue.config.productionTip = false;
 
 new Vue({
