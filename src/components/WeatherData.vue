@@ -90,10 +90,6 @@
 </script>
 
 <style lang="scss" scoped>
-<<<<<<< HEAD
-
-=======
->>>>>>> improve-styling
     @mixin gradient($opacity) {
         background: -moz-linear-gradient(
             top,
@@ -128,11 +124,7 @@
     }
 
     dd {
-<<<<<<< HEAD
-        color: #ccccd4;
-=======
         color: #B4B4B6;
->>>>>>> improve-styling
         padding-left: 36px;
     }
 
@@ -167,10 +159,7 @@
 	}
 
 	.weather-card {
-<<<<<<< HEAD
 		max-width: 1440px;
-=======
->>>>>>> improve-styling
 		background-position: top center !important;
 		border-radius: 8px;
 		box-shadow: 2px 2px 8px transparentize(black, 0.9);

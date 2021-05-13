@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
 <span>
 <div class="search-box">
         <input 
@@ -11,17 +10,6 @@
           @input="lookupWeather"
         />
       </div>			
-=======
-	<span>
-		<input
-			v-focus
-			type="text"
-			name="search-box"
-			placeholder="Type a city..."
-			:value="location"
-			@input="lookupWeather"
-		>
->>>>>>> improve-styling
 	</span>
 </template>
 
@@ -77,7 +65,6 @@
 	};
 </script>
 
-<<<<<<< HEAD
 <style>
 
 .search-box {
@@ -88,44 +75,19 @@
   padding: 300px 20px 20px 15px;
   color: #313131;
   display: flex;
-=======
-<style scoped>
-.search-box {
-  width: 100%;
-  margin-bottom: 30px;
-  background-color: transparent;
-}
-.search-box .search-bar {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  color: #313131;
->>>>>>> improve-styling
   font-size: 20px;
   appearance: none;
   border:none;
   outline: none;
   background: none;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
-<<<<<<< HEAD
-  background: transparentize(white, 0.7);
-  transition: 0.4s;
-  transition: 250ms ease-in-out;
-}
-
-=======
   background-color: transparent;
   border-radius: 0px 16px 0px 16px;
   transition: 0.4s;
 }
->>>>>>> improve-styling
 .search-box .search-bar:focus {
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 16px 0px 16px 0px;
 }
-<<<<<<< HEAD
 </style>
-=======
-</style>
->>>>>>> improve-styling
