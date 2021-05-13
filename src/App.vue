@@ -33,6 +33,9 @@
 			<ErrorHandling />
 		</div>
 		</div>
+		<div class="footer" id="root">
+  			<footer-style></footer-style>
+		</div>
 	</div>
 </template>
 
@@ -47,6 +50,11 @@
 			ErrorHandling,
 			WeatherData
 		},
+		methods: {
+			toggleNav: function() {
+      		this.isActive = !this.isActive;
+    }
+		},
 
 		computed: {
 			// API returns 40 total times across 5 days; we are only interested in one time per day, so return each 8th time
@@ -58,7 +66,9 @@
 		data() {
 			return {
 				forecastData: null,
-				forecastDataError: null
+				forecastDataError: null,
+				isActive: false,
+      			city: ''
 			}
 		}
 	};
@@ -76,7 +86,10 @@ header {
    margin: 0;
    padding: 0;
 }
-
+#app{
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  text-align: center;
+  }
 body {
    background-color: #e4e9ed;
    font-family: 'Courier New, sans-serif';
@@ -89,7 +102,8 @@ body {
 .sun{
 	font-size: 70px;
   	color: #8a39d6;
-  	padding-top: 10px;
+	text-shadow: black 2px;
+  	top: 100px;
   	padding-left: 10px;;
 }
 .button{
@@ -106,7 +120,7 @@ body {
 	h1{
 		text-align: center;
 		color: rgb(20, 20, 20);
-		font-family: 'Quattrocento, sans-serif';
+		font-family: 'Quattrocento';
 		font-size:  45px;
 		padding: 20px;
 		text-shadow: 3px 3px 6px rgb(206, 198, 198);
@@ -147,7 +161,7 @@ body {
 		}
 	}
 
-	.credit {
+.credit {
 		color: #f9f9ff;
 		font-size: 12px;
 		margin-top: 32px;

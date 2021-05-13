@@ -71,8 +71,8 @@
   width: 100%;
   text-align:center;
   margin-bottom: 30px;
-  height: 45px;
-  padding: 300px 20px 20px 15px;
+  height: 35px;
+  padding: 100px 20px 20px 15px;
   color: #313131;
   display: flex;
   font-size: 20px;
