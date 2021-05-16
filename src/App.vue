@@ -1,6 +1,6 @@
 <template>
 <div class="header">
-   <h1 class="header__title">World Weather Forecast</h1>
+   <h1 class="header__title">World Weather App</h1>
    <aside class="menu" @click="toggleNav" v-bind:class="{ 'isActive':isActive }">
         <div class="nav-container">
           <div class="top">
